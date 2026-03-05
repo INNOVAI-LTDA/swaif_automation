@@ -102,7 +102,8 @@ jobs:
             // Parse issue form headings
             const body = issue.data.body || '';
             const readHeading = (heading) => {
-              const pattern = new RegExp(`^### ${heading}\\s*$\\n([\\s\\S]*?)(?=^### |$)`, 'm');
+              const escaped = heading.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+              const pattern = new RegExp(`^### ${escaped}\\s*$\\n([\\s\\S]*?)(?=^### |$)`, 'm');
               const match = body.match(pattern);
               if (!match) return '';
               const value = match[1]

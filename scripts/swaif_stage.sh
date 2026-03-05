@@ -4,9 +4,17 @@ set -euo pipefail
 issue_title="${1:-}"
 stage="${2:-}"
 feature_dir="${3:-}"
-execution_type="${4:-MVP}"
-issue_number="${5:-}"
-mode="${6:-suggest}"
+
+# execution_type is optional; if $4 is a number it is the issue_number
+if [[ "${4:-}" =~ ^[0-9]+$ ]]; then
+  execution_type="MVP"
+  issue_number="${4:-}"
+  mode="${5:-suggest}"
+else
+  execution_type="${4:-MVP}"
+  issue_number="${5:-}"
+  mode="${6:-suggest}"
+fi
 
 allowed_stages="init specify plan tasks implement verify"
 if [[ -z "${issue_title}" || -z "${stage}" || -z "${feature_dir}" || -z "${issue_number}" ]]; then
