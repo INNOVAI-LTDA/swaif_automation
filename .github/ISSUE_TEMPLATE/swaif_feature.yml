@@ -1,0 +1,77 @@
+name: SWAIF Feature
+description: Entrada do pipeline — pedido do cliente em formato estruturado
+title: "[SWAIF] "
+labels: []
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Preencha o essencial. Após criar a issue, você pode **anexar arquivos** (drag&drop) e colar links.
+
+        **Disparo:**
+        - Labels: `swaif:init`, `swaif:specify`, `swaif:plan`, `swaif:tasks`, `swaif:implement`, `swaif:verify`
+        - Comments: `/run specify` • `/run plan` • `/run tasks` • `/run implement apply`
+
+  - type: input
+    id: feature_slug
+    attributes:
+      label: Feature Slug
+      description: kebab-case. Ex.: 001-hub-branding
+      placeholder: 001-example-feature
+    validations:
+      required: true
+
+  - type: dropdown
+    id: declared_execution_type
+    attributes:
+      label: Declared Execution Type
+      options: [MVP, Refactor, Bugfix, New Feature, Research]
+    validations:
+      required: true
+
+  - type: textarea
+    id: overview
+    attributes:
+      label: Overview
+      description: O que o cliente quer (1–5 linhas).
+    validations:
+      required: true
+
+  - type: textarea
+    id: scope
+    attributes:
+      label: Scope
+      description: Bullets curtos.
+    validations:
+      required: true
+
+  - type: textarea
+    id: acceptance_criteria
+    attributes:
+      label: Acceptance Criteria
+      description: Mensurável.
+    validations:
+      required: true
+
+  - type: input
+    id: base_reference
+    attributes:
+      label: Base Reference (para refactor)
+      description: commit SHA, tag, branch ou link de PR
+    validations:
+      required: false
+
+  - type: textarea
+    id: files_or_modules
+    attributes:
+      label: Arquivos/Módulos alvo (para refactor)
+    validations:
+      required: false
+
+  - type: textarea
+    id: reference_artifacts
+    attributes:
+      label: Artefatos de referência (links)
+      description: cole links para anexos, docs, imagens, PDFs, zips etc.
+    validations:
+      required: false
