@@ -40,7 +40,7 @@ jobs:
     timeout-minutes: 30
 
     env:
-      PROJECTS_TOKEN: ${{ secrets.PROJECTS_SECRET }}
+      PROJECTS_TOKEN: ${{ secrets.PROJECTS_SECRET || github.token }}
       OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
       SWAIF_MODEL: ${{ vars.SWAIF_MODEL }}
 
