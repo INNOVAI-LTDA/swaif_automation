@@ -4,13 +4,13 @@ set -euo pipefail
 issue_title="${1:-}"
 stage="${2:-}"
 feature_dir="${3:-}"
-execution_type="${4:-}"
+execution_type="${4:-MVP}"
 issue_number="${5:-}"
 mode="${6:-suggest}"
 
 allowed_stages="init specify plan tasks implement verify"
-if [[ -z "${issue_title}" || -z "${stage}" || -z "${feature_dir}" || -z "${execution_type}" || -z "${issue_number}" ]]; then
-  echo "Usage: $0 <issue_title> <stage> <feature_dir> <execution_type> <issue_number> [mode]" >&2
+if [[ -z "${issue_title}" || -z "${stage}" || -z "${feature_dir}" || -z "${issue_number}" ]]; then
+  echo "Usage: $0 <issue_title> <stage> <feature_dir> [execution_type] <issue_number> [mode]" >&2
   exit 1
 fi
 if [[ ! " ${allowed_stages} " =~ " ${stage} " ]]; then
