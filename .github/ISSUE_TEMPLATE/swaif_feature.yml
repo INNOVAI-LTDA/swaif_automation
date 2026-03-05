@@ -24,7 +24,7 @@ body:
   - type: dropdown
     id: declared_execution_type
     attributes:
-      label: Declared Execution Type
+      label: Tipo de Execução
       options: [MVP, Refactor, Bugfix, New Feature, Research]
     validations:
       required: true
@@ -32,7 +32,7 @@ body:
   - type: textarea
     id: overview
     attributes:
-      label: Overview
+      label: Visão Geral
       description: O que o cliente quer (1–5 linhas).
     validations:
       required: true
@@ -40,7 +40,7 @@ body:
   - type: textarea
     id: scope
     attributes:
-      label: Scope
+      label: Escopo do projeto
       description: Bullets curtos.
     validations:
       required: true
@@ -48,7 +48,7 @@ body:
   - type: textarea
     id: acceptance_criteria
     attributes:
-      label: Acceptance Criteria
+      label: Termos de Aceitação
       description: Mensurável.
     validations:
       required: true
@@ -56,7 +56,7 @@ body:
   - type: textarea
     id: constraints
     attributes:
-      label: Constraints
+      label: Restrições
       description: List technical, timeline, compliance, or dependency constraints.
       value: |
         - Constraint 1
@@ -78,7 +78,7 @@ body:
   - type: textarea
     id: implementation_hints
     attributes:
-      label: Implementation Hints (optional)
+      label: Dicas de Implementação (optional)
       description: Optional references, docs, or technical pointers.
       placeholder: Helpful references or implementation notes.
     validations:
@@ -87,7 +87,7 @@ body:
   - type: input
     id: base_reference
     attributes:
-      label: Base Reference (para refactor)
+      label: Base de referência (para refactor)
       description: commit SHA, tag, branch ou link de PR
     validations:
       required: false
