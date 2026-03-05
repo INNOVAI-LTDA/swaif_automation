@@ -19,7 +19,7 @@ def _build_payload(model: str, prompt: str) -> dict:
     }
 
 
-def generate(target: str, prompt: str, api_key: str, model: str, urlopen=urllib.request.urlopen) -> int:
+def generate(target: str, prompt: str, api_key: str, model: str, urlopen=urllib.request.urlopen) -> None:
     req = urllib.request.Request(
         "https://api.openai.com/v1/chat/completions",
         data=json.dumps(_build_payload(model, prompt)).encode("utf-8"),
@@ -36,13 +36,12 @@ def generate(target: str, prompt: str, api_key: str, model: str, urlopen=urllib.
                 raise RuntimeError(f"OpenAI API returned unexpected status code: {status}")
             data = json.load(resp)
     except urllib.error.HTTPError as e:
-        print("HTTPError:", e.read().decode("utf-8", "ignore"), file=sys.stderr)
-        raise
+        body = e.read().decode("utf-8", "ignore")[:200]
+        raise RuntimeError(f"OpenAI API returned HTTP {e.code}: {body}") from e
 
     text = data["choices"][0]["message"]["content"].rstrip() + "\n"
     with open(target, "w", encoding="utf-8") as f:
         f.write(text)
-    return 200
 
 
 def main(argv: list[str]) -> int:
@@ -58,7 +57,11 @@ def main(argv: list[str]) -> int:
         return 1
 
     model = os.environ.get("SWAIF_MODEL", "").strip() or "gpt-5.2"
-    generate(target, prompt, api_key, model)
+    try:
+        generate(target, prompt, api_key, model)
+    except RuntimeError as e:
+        print(f"[ERR] {e}", file=sys.stderr)
+        return 1
     print(f"Wrote: {target}")
     return 0
 
