@@ -53,6 +53,37 @@ body:
     validations:
       required: true
 
+  - type: textarea
+    id: constraints
+    attributes:
+      label: Constraints
+      description: List technical, timeline, compliance, or dependency constraints.
+      value: |
+        - Constraint 1
+        - Constraint 2
+    validations:
+      required: true
+      
+  - type: textarea
+    id: non_goals
+    attributes:
+      label: Non-Goals
+      description: Explicitly list what is out of scope.
+      value: |
+        - Out-of-scope item 1
+        - Out-of-scope item 2
+    validations:
+      required: true
+      
+  - type: textarea
+    id: implementation_hints
+    attributes:
+      label: Implementation Hints (optional)
+      description: Optional references, docs, or technical pointers.
+      placeholder: Helpful references or implementation notes.
+    validations:
+      required: false
+      
   - type: input
     id: base_reference
     attributes:
