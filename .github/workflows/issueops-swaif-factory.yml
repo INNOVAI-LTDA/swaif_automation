@@ -112,8 +112,27 @@ jobs:
               return value || '';
             };
 
-            core.setOutput('feature_slug', readHeading('Feature Slug'));
-            core.setOutput('execution_type', readHeading('Declared Execution Type'));
+            const featureSlug =
+              readHeading('Identificador da Feature (slug)') ||
+              readHeading('Feature Slug');
+
+            const executionType =
+              readHeading('Tipo de Execução (declarado)') ||
+              readHeading('Tipo de Execução') ||
+              readHeading('Declared Execution Type');
+
+            if (!featureSlug) {
+              core.setFailed('Feature Slug ausente no body da issue.');
+              return;
+            }
+
+            if (!executionType) {
+              core.setFailed('Tipo de Execução ausente no body da issue.');
+              return;
+            }
+
+            core.setOutput('feature_slug', featureSlug);
+            core.setOutput('execution_type', executionType);
 
       - name: Comment start
         uses: peter-evans/create-or-update-comment@v4
