@@ -66,14 +66,14 @@ fi
 
 # collect attachments (best-effort)
 if [[ "${stage}" == "init" || "${stage}" == "specify" ]]; then
-  if [[ -n "${PROJECTS_TOKEN:-}" && -n "${GITHUB_REPOSITORY:-}" ]]; then
+  if [[ -n "${PROJECTS_TOKEN:-}" && -n "${GITHUB_REPOSITORY:-}" && "${PROJECTS_TOKEN}" != "placeholder-token" ]]; then
     python3 scripts/swaif_collect_attachments.py \
       --repo "${GITHUB_REPOSITORY}" \
       --issue "${issue_number}" \
       --token "${PROJECTS_TOKEN}" \
       --out "${feature_dir}/attachments" || true
   else
-    echo "Sem token/repo; pulei coleta de anexos."
+    echo "Sem token/repo válido; pulei coleta de anexos."
   fi
 fi
 
