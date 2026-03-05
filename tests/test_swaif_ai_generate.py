@@ -1,6 +1,8 @@
 import json
 import tempfile
 import unittest
+import urllib.error
+import urllib.request
 from pathlib import Path
 
 from scripts import swaif_ai_generate
@@ -34,7 +36,7 @@ class SwaifAiGenerateTests(unittest.TestCase):
 
         with tempfile.TemporaryDirectory() as tmpdir:
             target = Path(tmpdir) / "out.md"
-            status = swaif_ai_generate.generate(
+            swaif_ai_generate.generate(
                 str(target),
                 "prompt",
                 api_key="test-key",
@@ -42,7 +44,6 @@ class SwaifAiGenerateTests(unittest.TestCase):
                 urlopen=fake_urlopen,
             )
 
-            self.assertEqual(status, 200)
             self.assertTrue(target.exists())
             self.assertEqual(target.read_text(encoding="utf-8"), "ok content\n")
 
@@ -55,6 +56,29 @@ class SwaifAiGenerateTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as tmpdir:
             target = Path(tmpdir) / "out.md"
             with self.assertRaisesRegex(RuntimeError, "unexpected status code: 201"):
+                swaif_ai_generate.generate(
+                    str(target),
+                    "prompt",
+                    api_key="test-key",
+                    model="gpt-5.2",
+                    urlopen=fake_urlopen,
+                )
+
+    def test_generate_converts_http_error_to_runtime_error(self):
+        def fake_urlopen(_req, timeout=0):
+            import io
+            error_body = b'{"error": "Unauthorized"}'
+            raise urllib.error.HTTPError(
+                url="https://api.openai.com/v1/chat/completions",
+                code=401,
+                msg="Unauthorized",
+                hdrs=None,
+                fp=io.BytesIO(error_body),
+            )
+
+        with tempfile.TemporaryDirectory() as tmpdir:
+            target = Path(tmpdir) / "out.md"
+            with self.assertRaisesRegex(RuntimeError, r"HTTP 401"):
                 swaif_ai_generate.generate(
                     str(target),
                     "prompt",
